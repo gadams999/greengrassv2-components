@@ -5,15 +5,14 @@ This is a set of example component source files for AWS IoT Greengrass 2.0. It i
 When doing development, in order to not lose work within a VM, especially when rolling back VM changes to test component updates to the operating system, follow these steps:
 
 1. Fork this repository into your home directory (e.g., `/home/ggc_user`)
-1. Rename the repository to `GreengrassDevelopment` (`mv greengrassv2-components GreengrassDevelopment`)
 1. Ensure you have proper Git credentials working and can commit from the remote SSH session
 
-The directory layout for local component development follows the Greengrass documentation for file format, but instead of using `~/GreengrassCore` uses `~/GreengrassDevelopment`. Under `~/GreengrassDevelopment` is the `recipe/` directory that holds all recipe files, and along side that the `artifacts/` directory that holds all artifact files that will be uploaded to your S3 bucket once the component is published.
+The directory layout for local component development follows the Greengrass documentation for file format, but instead of using `~/GreengrassCore` uses `~/greengrassv2-components`. Under `~/greengrassv2-components` is the `recipe/` directory that holds all recipe files, and along side that the `artifacts/` directory that holds all artifact files that will be uploaded to your S3 bucket once the component is published.
 
 The file structure should look like this:
 
 ```
-GreengrassDevelopment/
+greengrassv2-components/
 ├── LICENSE
 ├── README.md
 ├── artifacts
@@ -37,8 +36,8 @@ export COMPONENT_VERSION=1.0.0
 
 # These aliases can be included in the .bashrc file
 alias gg_deploy='sudo /greengrass/v2/bin/greengrass-cli deployment create \
-  --recipeDir ~/GreengrassDevelopment/recipes \
-  --artifactDir ~/GreengrassCore/artifacts \
+  --recipeDir ~/greengrassv2-components/recipes \
+  --artifactDir ~/greengrassv2-components/artifacts \
   --merge "$COMPONENT_NAME=$COMPONENT_VERSION"'
 alias gg_remove='sudo /greengrass/v2/bin/greengrass-cli deployment create \
   --remove "$COMPONENT_NAME"'
