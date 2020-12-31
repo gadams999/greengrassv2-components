@@ -1,0 +1,30 @@
+---
+# Install Python 3 and core libraries
+RecipeFormatVersion: 2020-01-25
+ComponentName: org.gavinadams.python3_installer
+ComponentVersion: '1.0.0'
+ComponentDescription: Install Python 3 packages used by Greengrass 2.0 components
+ComponentPublisher: Amazon
+ComponentConfiguration:
+  DefaultConfiguration:
+    Message: world
+Manifests:
+  - Platform:
+      os: linux
+    Lifecycle:
+      Install:
+        RequiresPrivilege: true
+        Timeout: 300
+        Script: |-
+          # Prep Python deps to support install script
+          if [ ! -f /usr/bin/pip3 ]; then
+            if [ -f /usr/bin/yum ]; then
+              # Fedora, Amazon Linux, CentOS (RIP), RedHat
+              yum -y makecache
+              yum install -y python3-pip
+            elif [ -f /usr/bin/apt ]; then
+              # Debian, Ubuntu, Raspberry Pi OS
+              apt update -y
+              apt install -y python3-pip
+            fi
+          fi

@@ -1,0 +1,33 @@
+---
+RecipeFormatVersion: 2020-01-25
+ComponentName: com.example.cloud_publish
+ComponentVersion: '1.0.0'
+ComponentDescription: Publish to cloud topic heartbeat
+ComponentPublisher: Amazon
+ComponentDependencies:
+  org.gavinadams.python3_installer:
+    VersionRequirement: ^1.0.0
+    DependencyType: SOFT
+ComponentConfiguration:
+  DefaultConfiguration:
+    accessControl:
+       aws.greengrass.ipc.mqttproxy:
+        "com.example.cloud_publish:mqttproxy:1":
+          policyDescription: Allows access to publish to the defined topic.
+          operations:
+            - "aws.greengrass#PublishToIoTCore"
+          resources:
+            - 'test/heartbeat'
+    Topic: test/heartbeat
+Manifests:
+  - Platform:
+      os: linux
+    Lifecycle:
+      Setenv:
+        CLOUD_TOPIC: '{configuration:/Topic}'
+      Install:
+        RequiresPrivilege: true
+        Script: |
+          pip3 install awsiotsdk
+      Run: |
+        python3 {artifacts:path}/cloud_publish.py
